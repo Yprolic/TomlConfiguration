@@ -1,6 +1,6 @@
-Name              = "koding"
+Name              = "prolic"
 Enabled           = true
-Users             = ["ankara", "istanbul"]
+Users             = ["user1", "user2"]
 Interval 	  = 10000000000
 ID       	  = 1234567890
 Labels       	  = [123,456]
@@ -8,7 +8,7 @@ Port              = 6060
 
 [Postgres]
 Enabled           = true
-Port              = 5432
-Hosts             = ["192.168.2.1", "192.168.2.2", "192.168.2.3"]
-AvailabilityRatio = 8.23
-DBName            = "configdb"
+Port              = 8080
+Hosts             = ["192.168.1.1", "192.168.1.2", "192.168.1.3"]
+AvailabilityRatio = 12.3213
+DBName            = "user"

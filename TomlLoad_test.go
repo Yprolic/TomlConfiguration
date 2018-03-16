@@ -7,13 +7,13 @@ import (
 type Server struct {
 	Name     string `default:"123123"`
 	Port     int    `default:"6060"`
-	Enabled  bool
+	Enabled  bool   `default:"true"`
 	Users    []string
 	Postgres Postgres
 }
 type Postgres struct {
 	Enabled           bool
-	Port              int
+	Port              int `default:"6060"`
 	Hosts             []string
 	DBName            string
 	AvailabilityRatio float64
@@ -21,16 +21,16 @@ type Postgres struct {
 
 func getDefaultServer() *Server {
 	return &Server{
-		Name:    "koding",
+		Name:    "prolic",
 		Port:    6060,
 		Enabled: true,
-		Users:   []string{"ankara", "istanbul"},
+		Users:   []string{"user1", "user2"},
 		Postgres: Postgres{
 			Enabled:           true,
-			Port:              5432,
-			Hosts:             []string{"192.168.2.1", "192.168.2.2", "192.168.2.3"},
-			DBName:            "configdb",
-			AvailabilityRatio: 8.23,
+			Port:              8080,
+			Hosts:             []string{"192.168.1.1", "192.168.1.2", "192.168.11.3"},
+			DBName:            "user",
+			AvailabilityRatio: 12.3213,
 		},
 	}
 }
