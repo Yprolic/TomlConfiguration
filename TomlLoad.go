@@ -20,7 +20,8 @@ type TOMLLoader struct {
 
 func (t *TOMLLoader) Load(s interface{}) error {
 	var r io.Reader
-
+	tag := TagLoader{}
+	tag.load(s)
 	if t.Reader != nil {
 		r = t.Reader
 	} else if t.Path != "" {
@@ -37,7 +38,6 @@ func (t *TOMLLoader) Load(s interface{}) error {
 	if _, err := toml.DecodeReader(r, s); err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -52,7 +52,6 @@ func getConfig(path string) (*os.File, error) {
 		configPath = filepath.Join(pwd, path)
 	}
 
-	// check if file with combined path is exists(relative path)
 	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 		return os.Open(configPath)
 	}

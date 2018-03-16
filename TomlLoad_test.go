@@ -5,7 +5,7 @@ import (
 )
 
 type Server struct {
-	Name     string `default:"123123"`
+	Name     string `default:"prolic"`
 	Port     int    `default:"6060"`
 	Enabled  bool   `default:"true"`
 	Users    []string
@@ -13,8 +13,8 @@ type Server struct {
 }
 type Postgres struct {
 	Enabled           bool
-	Port              int `default:"6060"`
-	Hosts             []string
+	Port              int      `default:"6061"`
+	Hosts             []string `default:"6061"`
 	DBName            string
 	AvailabilityRatio float64
 }
@@ -27,8 +27,8 @@ func getDefaultServer() *Server {
 		Users:   []string{"user1", "user2"},
 		Postgres: Postgres{
 			Enabled:           true,
-			Port:              8080,
-			Hosts:             []string{"192.168.1.1", "192.168.1.2", "192.168.11.3"},
+			Port:              6061,
+			Hosts:             []string{"192.168.1.1", "192.168.1.2", "192.168.1.3"},
 			DBName:            "user",
 			AvailabilityRatio: 12.3213,
 		},
@@ -36,7 +36,6 @@ func getDefaultServer() *Server {
 }
 func TestToml(t *testing.T) {
 	m := TOMLLoader{Path: "conf/conf.toml"}
-
 	s := &Server{}
 	if err := m.Load(s); err != nil {
 		t.Error(err)

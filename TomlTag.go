@@ -10,21 +10,26 @@ type TagLoader struct {
 	DefaultTagName string
 }
 
-func (t *TagLoader) Load(s interface{}) error {
+func (t *TagLoader) load(s interface{}) error {
 	if t.DefaultTagName == "" {
 		t.DefaultTagName = "default"
 	}
 	sv := reflect.ValueOf(s).Elem()
 	st := sv.Type()
+	return t.setDefault(sv, st)
+}
+func (t *TagLoader) setDefault(sv reflect.Value, st reflect.Type) error {
 	for i := 0; i < st.NumField(); i++ {
-		defValue := st.Field(i).Tag.Get("default")
-		if defValue != "" {
-			setField(sv.Field(i), defValue)
+		if st.Field(i).Type.Kind() == reflect.Struct {
+			t.setDefault(sv.Field(i), st.Field(i).Type)
+		}
+		if defValue := st.Field(i).Tag.Get(t.DefaultTagName); defValue != "" {
+			t.setField(sv.Field(i), defValue)
 		}
 	}
 	return nil
 }
-func setField(field reflect.Value, v string) error {
+func (t *TagLoader) setField(field reflect.Value, v string) error {
 	switch field.Kind() {
 	case reflect.Bool:
 		if val, err := strconv.ParseBool(v); err != nil {
@@ -53,8 +58,7 @@ func setField(field reflect.Value, v string) error {
 	case reflect.String:
 		field.SetString(v)
 	default:
-		return fmt.Errorf("multiconfig: field '%s' has unsupported type: %s", field.String(), field.Kind())
+		return fmt.Errorf("default tag has unsupported type: %s", field.String(), field.Kind())
 	}
-
 	return nil
 }

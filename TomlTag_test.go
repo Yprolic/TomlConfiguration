@@ -8,6 +8,6 @@ import (
 func TestTagLoader_Load(t *testing.T) {
 	tag := TagLoader{}
 	s := Server{}
-	tag.Load(&s)
+	tag.load(&s)
 	fmt.Printf("%+v", s)
 }
